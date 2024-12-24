@@ -15,6 +15,7 @@ const App = () => {
       onConnect: () => {
         console.log("connected");
         stompClient.subscribe("/topic/messages", (message) => {
+          console.log("message", messages);
           setMessages((prevMessage) => [...prevMessage, message?.body]);
         });
       },
@@ -29,6 +30,7 @@ const App = () => {
 
   const sendMessage = () => {
     if (client && newMessage.trim()) {
+      console.log("message send s");
       client.publish({ destination: "/app/sendMessage", body: newMessage });
       setNewMessage("");
     }
