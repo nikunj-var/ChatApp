@@ -1,6 +1,7 @@
 package com.example.chatapp.services;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -34,7 +35,11 @@ public class MessageService {
         message.setChat(chat);
         message.setContent(content);
         return messageRepository.save(message);
-       
-     
+    }
+
+    public List<Message> getMessagesById(Long chatId){
+        Chat chat =  chatRepository.findById(chatId).orElseThrow(()->new NotFoundException("chat not found"));
+        System.out.println("\n\n\n"+messageRepository.findByChat(chat)+"\n\n\n");
+        return messageRepository.findByChat(chat);
     }
 }

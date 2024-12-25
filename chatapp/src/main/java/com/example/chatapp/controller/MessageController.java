@@ -9,6 +9,13 @@ import com.example.chatapp.services.MessageService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
 
 @RestController
 @RequestMapping("/message")
@@ -27,5 +34,12 @@ public class MessageController {
         String content = entity.getContent();
         return messageService.sendMessage(chatId,senderId,content);
     }
+
+    @GetMapping("/chat-history/{id}")
+    public List<Message> getChatById(@PathVariable Long id) {
+        return messageService.getMessagesById(id);
+    }
+    
+
     
 }
