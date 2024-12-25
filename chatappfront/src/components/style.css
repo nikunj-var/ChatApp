@@ -1,0 +1,48 @@
+.message-bubble {
+  max-width: 60%;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.own {
+  background-color: #dcf8c6;
+  align-self: flex-end;
+}
+
+.other {
+  background-color: #ffffff;
+  align-self: flex-start;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  overflow-y: auto;
+  height: 80vh;
+}
+
+.message-input {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.message-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+}
+
+.message-input button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}

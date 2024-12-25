@@ -1,43 +1,44 @@
 import React, { useEffect, useState } from "react";
 import SockJs from "sockjs-client";
 import { Client } from "@stomp/stompjs";
+import ChatWindow from "./components/ChatWindow";
 
 const App = () => {
-  const [client, setClient] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
+  // const [client, setClient] = useState(null);
+  // const [messages, setMessages] = useState([]);
+  // const [newMessage, setNewMessage] = useState("");
 
-  useEffect(() => {
-    const socket = new SockJs("http://localhost:8080/ws");
+  // useEffect(() => {
+  //   const socket = new SockJs("http://localhost:8080/ws");
 
-    const stompClient = new Client({
-      webSocketFactory: () => socket,
-      onConnect: () => {
-        console.log("connected");
-        stompClient.subscribe("/topic/messages", (message) => {
-          console.log("message", messages);
-          setMessages((prevMessage) => [...prevMessage, message?.body]);
-        });
-      },
-      onStompError: (error) => {
-        console.error(error);
-      },
-    });
-    stompClient.activate();
-    setClient(stompClient);
-    return () => stompClient.deactivate();
-  }, []);
+  //   const stompClient = new Client({
+  //     webSocketFactory: () => socket,
+  //     onConnect: () => {
+  //       console.log("connected");
+  //       stompClient.subscribe("/topic/messages", (message) => {
+  //         console.log("message", messages);
+  //         setMessages((prevMessage) => [...prevMessage, message?.body]);
+  //       });
+  //     },
+  //     onStompError: (error) => {
+  //       console.error(error);
+  //     },
+  //   });
+  //   stompClient.activate();
+  //   setClient(stompClient);
+  //   return () => stompClient.deactivate();
+  // }, []);
 
-  const sendMessage = () => {
-    if (client && newMessage.trim()) {
-      console.log("message send s");
-      client.publish({ destination: "/app/sendMessage", body: newMessage });
-      setNewMessage("");
-    }
-  };
+  // const sendMessage = () => {
+  //   if (client && newMessage.trim()) {
+  //     console.log("message send s");
+  //     client.publish({ destination: "/app/sendMessage", body: newMessage });
+  //     setNewMessage("");
+  //   }
+  // };
   return (
     <div>
-      <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+      {/* <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
         <h2>Mini Chat App</h2>
         <div
           style={{
@@ -66,7 +67,8 @@ const App = () => {
         >
           Send
         </button>
-      </div>
+      </div> */}
+      <ChatWindow chatId={2} currentUserId={1} />
     </div>
   );
 };

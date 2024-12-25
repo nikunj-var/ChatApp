@@ -39,7 +39,6 @@ public class MessageService {
 
     public List<Message> getMessagesById(Long chatId){
         Chat chat =  chatRepository.findById(chatId).orElseThrow(()->new NotFoundException("chat not found"));
-        System.out.println("\n\n\n"+messageRepository.findByChat(chat)+"\n\n\n");
         return messageRepository.findByChat(chat);
     }
 }
