@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.chatapp.entities.Chat;
 import com.example.chatapp.services.ChatService;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,8 +30,13 @@ public class ChatController {
 
     @PostMapping("/createChat/{userId1}/{userId2}")
     public Chat createChat(@PathVariable Long userId1, @PathVariable Long userId2) {
-        System.out.println("\n\n\n\n\n userid"+userId1+userId2);
         return chatService.createChat(userId1, userId2);
     }
+
+    @GetMapping("/all")
+    public List<Chat> getMethodName() {
+        return chatService.getAllChat();
+    }
+    
         
 }

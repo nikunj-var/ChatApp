@@ -1,5 +1,6 @@
 package com.example.chatapp.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -24,11 +25,12 @@ public class ChatService {
         User user1 = userRepository.findById(userId1).orElseThrow(()->new NotFoundException("User1 not found"));
         User user2 = userRepository.findById(userId2).orElseThrow(()->new NotFoundException("User2 not found"));
         
-        Optional<Chat> existingChat = chatRepository.findByUser1AndUser2(user1,user2);
-
+        Optional<Chat> existingChat = chatRepository.findByUsers(user1,user2);
+   
         if(existingChat.isPresent()){
             return existingChat.get();
         }
+       
 
         Chat chat = new Chat();
         chat.setUser1(user1);
@@ -37,6 +39,8 @@ public class ChatService {
         return ans;
     }
 
-    
-    
+    public List<Chat> getAllChat() {
+        return chatRepository.findAll();
+    }
+
 }

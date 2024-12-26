@@ -27,7 +27,6 @@ public class MessageService {
 
 
     public Message sendMessage(Long chatId,Long senderId, String content){
-        System.out.println("\n\n\n\nchat"+chatRepository.findById(chatId)+"\n\n\n");
         Chat chat = chatRepository.findById(chatId).orElseThrow(()->new NotFoundException("chat not found!"));
         
         Message message = new Message();

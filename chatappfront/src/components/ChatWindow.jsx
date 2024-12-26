@@ -12,13 +12,17 @@ import {
 } from "../services/api";
 
 const ChatWindow = ({ chatId, currentUserId }) => {
+  console.log("chatId", chatId);
+
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
   useEffect(() => {
     const loadMessages = async () => {
-      const data = await fetchMessages(chatId);
-      setMessages(data);
+      if (chatId) {
+        const data = await fetchMessages(chatId);
+        setMessages(data);
+      }
     };
 
     loadMessages();

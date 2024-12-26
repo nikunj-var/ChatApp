@@ -9,7 +9,9 @@ import com.example.chatapp.services.UserService;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -22,6 +24,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping("/")
+    public User createUser(@RequestBody User user) {
+       return userService.createUser(user);
+    }
+    
     @GetMapping("/all")
     public List<User> getMethodName() {
         return userService.getAll();

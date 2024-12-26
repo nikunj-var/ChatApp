@@ -32,7 +32,6 @@ public class MessageController {
         Long senderId = entity.getSenderId();
         Long chatId = entity.getChatId();
         String content = entity.getContent();
-        System.out.println("\n\n\n"+senderId+" "+chatId+" "+content);
         return messageService.sendMessage(chatId,senderId,content);
     }
 

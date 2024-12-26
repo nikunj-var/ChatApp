@@ -1,74 +1,30 @@
 import React, { useEffect, useState } from "react";
-import SockJs from "sockjs-client";
-import { Client } from "@stomp/stompjs";
 import ChatWindow from "./components/ChatWindow";
+import "./App.css";
+import SideChat from "./components/SideChat";
+import { getChatId } from "./services/api";
 
 const App = () => {
-  // const [client, setClient] = useState(null);
-  // const [messages, setMessages] = useState([]);
-  // const [newMessage, setNewMessage] = useState("");
+  const [user2, setUser2] = useState(localStorage.getItem("user2"));
+  const [chatId, setChatId] = useState(1);
 
-  // useEffect(() => {
-  //   const socket = new SockJs("http://localhost:8080/ws");
+  useEffect(() => {
+    const getId = async () => {
+      const res = await getChatId({ id1: 3, id2: user2 });
+      setChatId(res?.id);
+    };
+    getId();
+  }, [user2]);
 
-  //   const stompClient = new Client({
-  //     webSocketFactory: () => socket,
-  //     onConnect: () => {
-  //       console.log("connected");
-  //       stompClient.subscribe("/topic/messages", (message) => {
-  //         console.log("message", messages);
-  //         setMessages((prevMessage) => [...prevMessage, message?.body]);
-  //       });
-  //     },
-  //     onStompError: (error) => {
-  //       console.error(error);
-  //     },
-  //   });
-  //   stompClient.activate();
-  //   setClient(stompClient);
-  //   return () => stompClient.deactivate();
-  // }, []);
-
-  // const sendMessage = () => {
-  //   if (client && newMessage.trim()) {
-  //     console.log("message send s");
-  //     client.publish({ destination: "/app/sendMessage", body: newMessage });
-  //     setNewMessage("");
-  //   }
-  // };
   return (
-    <div>
-      {/* <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-        <h2>Mini Chat App</h2>
-        <div
-          style={{
-            border: "1px solid #ccc",
-            padding: "10px",
-            height: "300px",
-            overflowY: "auto",
-          }}
-        >
-          {messages.map((msg, index) => (
-            <div key={index} style={{ margin: "5px 0" }}>
-              {msg}
-            </div>
-          ))}
-        </div>
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type a message..."
-          style={{ width: "80%", padding: "10px", marginTop: "10px" }}
-        />
-        <button
-          onClick={sendMessage}
-          style={{ padding: "10px", marginLeft: "10px" }}
-        >
-          Send
-        </button>
-      </div> */}
-      <ChatWindow chatId={3} currentUserId={2} />
+    <div className="container">
+      <div className="side-chat">
+        <SideChat setUser2={setUser2} />
+      </div>
+
+      <div className="chat-window">
+        <ChatWindow chatId={chatId} currentUserId={3} />
+      </div>
     </div>
   );
 };
