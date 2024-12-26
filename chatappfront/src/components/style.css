@@ -7,13 +7,16 @@
 }
 
 .own {
+  border: 1px solid gray;
   background-color: #dcf8c6;
   align-self: flex-end;
 }
 
 .other {
-  background-color: #ffffff;
+  background-color: #36452a;
+  color: wheat;
   align-self: flex-start;
+  border: 1px solid gray;
 }
 
 .message-list {

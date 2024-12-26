@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import MessageBubble from "./MessageBubble";
 import MessageInput from "./MessageInput";
 import "./style.css";
-import { fetchMessages, sendMessage } from "../services/api";
+
+import {
+  connectWebSocket,
+  fetchMessages,
+  sendMessage,
+  sendWebSocketMessage,
+  stompClient,
+} from "../services/api";
 
 const ChatWindow = ({ chatId, currentUserId }) => {
   const [messages, setMessages] = useState([]);
@@ -17,6 +24,19 @@ const ChatWindow = ({ chatId, currentUserId }) => {
     loadMessages();
   }, [chatId]);
 
+  const addMessage = (message) => {
+    setMessages((prevMessage) => [...prevMessage, message]);
+  };
+
+  useEffect(() => {
+    connectWebSocket(addMessage);
+    return () => {
+      if (stompClient && stompClient?.disconnect) {
+        stompClient?.disconnect();
+      }
+    };
+  }, []);
+
   const handleSendMessage = async () => {
     if (newMessage.trim() === "") return;
 
@@ -24,13 +44,10 @@ const ChatWindow = ({ chatId, currentUserId }) => {
       chatId,
       senderId: currentUserId,
       content: newMessage,
-    //   timestamp: new Date().toISOString(),
     };
 
-    const savedMessage = await sendMessage(message);
-
-    setMessages([...messages, savedMessage]);
-    setNewMessage("");
+    sendWebSocketMessage(message);
+    addMessage(message);
   };
 
   return (
@@ -40,7 +57,7 @@ const ChatWindow = ({ chatId, currentUserId }) => {
           <MessageBubble
             key={msg.id}
             content={msg.content}
-            isOwnMessage={msg.senderId === currentUserId}
+            isOwnMessage={msg?.user?.id === currentUserId}
           />
         ))}
       </div>

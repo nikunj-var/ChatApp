@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css"; // Add your styling here
+import "./style.css"; 
 
 const MessageBubble = ({ content, isOwnMessage }) => {
   return (

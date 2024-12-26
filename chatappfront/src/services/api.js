@@ -36,25 +36,26 @@ export const sendMessage = async (message) => {
   }
 };
 
-// let stompClient = null;
+let stompClient = null;
 
-// export const connectWebSocket = (onMessageRecieved) => {
-//   const socket = new SockJS("http://localhost:8080/ws");
-//   stompClient = Stomp.over(socket);
+export const connectWebSocket = (onMessageRecieved) => {
+  const socket = new SockJS("http://localhost:8080/ws");
+  stompClient = Stomp.over(socket);
 
-//   stompClient.connect({}, () => {
-//     console.log("connected to websocket");
-//     stompClient.subscribe("/topic/messages", (message) => {
-//       const parsedMessage = JSON.parse(message?.body);
-//       onMessageRecieved(parsedMessage);
-//     });
-//   });
-// };
+  stompClient.connect({}, () => {
+    console.log("connected to websocket");
+    stompClient.subscribe("/topic/messages", (message) => {
+      const parsedMessage = JSON.parse(message?.body);
+      onMessageRecieved(parsedMessage);
+    });
+  });
+};
 
-// export const sendWebSocketMessage = (message) => {
-//   if (stompClient && stompClient.connected) {
-//     stompClient.send("/app/sendMessage", {}, JSON.stringify(message));
-//   } else {
-//     console.error("Websocket is not connected");
-//   }
-// };
+export const sendWebSocketMessage = (message) => {
+  if (stompClient && stompClient.connected) {
+    stompClient.send("/app/sendMessage", {}, JSON.stringify(message));
+  } else {
+    console.error("Websocket is not connected");
+  }
+};
+export { stompClient };

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.chatapp.entities.Chat;
 import com.example.chatapp.entities.Message;
+import com.example.chatapp.entities.MessageRequest;
 import com.example.chatapp.entities.User;
 import com.example.chatapp.exception.NotFoundException;
 import com.example.chatapp.repositories.ChatRepository;
@@ -41,4 +42,6 @@ public class MessageService {
         Chat chat =  chatRepository.findById(chatId).orElseThrow(()->new NotFoundException("chat not found"));
         return messageRepository.findByChat(chat);
     }
+
+
 }

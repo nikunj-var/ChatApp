@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 
 @RestController
@@ -24,11 +26,10 @@ public class ChatController {
         this.chatService = chatService;
     }
 
-
     @PostMapping("/createChat/{userId1}/{userId2}")
-    public Chat postMethodName(@PathVariable Long userId1, @PathVariable Long userId2) {
+    public Chat createChat(@PathVariable Long userId1, @PathVariable Long userId2) {
         System.out.println("\n\n\n\n\n userid"+userId1+userId2);
         return chatService.createChat(userId1, userId2);
     }
-    
+        
 }

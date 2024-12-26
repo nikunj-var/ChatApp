@@ -68,7 +68,7 @@ const App = () => {
           Send
         </button>
       </div> */}
-      <ChatWindow chatId={2} currentUserId={1} />
+      <ChatWindow chatId={3} currentUserId={2} />
     </div>
   );
 };
