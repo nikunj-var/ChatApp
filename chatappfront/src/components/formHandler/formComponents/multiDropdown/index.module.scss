@@ -1,0 +1,79 @@
+@import "assets/scss/variables";
+
+.topLabel {
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+.optionsList {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 3px 3px 6px 0px rgb(208 202 202 / 20%);
+  overflow: hidden;
+  top: 110%;
+  left: 0px;
+  width: 100%;
+  z-index: 1;
+  label {
+    font-size: 12px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+    background-color: $white;
+    input {
+      cursor: pointer;
+    }
+    p {
+      margin: 0;
+    }
+    &:hover {
+      background-color: $color--greyLight;
+    }
+  }
+  &.showOptionList {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.multiSelect {
+  width: 100%;
+  max-width: 150px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid black;
+  padding: 0 10px;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  border-radius: 3px;
+
+  .displaySelected {
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .isMultiSelected {
+    color: $color--purple;
+    font-weight: 500;
+  }
+}
+.errorMessage {
+  color: red;
+  white-space: nowrap;
+  font-weight: 400;
+}
+.disabled {
+  background-color: rgba($color--grey, 0.1) !important;
+}
+.errorBackground {
+  border: 1px solid red !important;
+  color: red !important;
+  background-color: rgba(red, 0.05) !important;
+}

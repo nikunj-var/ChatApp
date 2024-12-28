@@ -1,0 +1,83 @@
+* {
+  /* border: 1px solid aqua; */
+}
+.container2 {
+  height: 100vh;
+  display: flex;
+  box-sizing: border-box;
+  background-size: cover; /* Ensures the image covers the entire background */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat;
+  background-image: url("https://media2.giphy.com/media/26FPJGjhefSJuaRhu/giphy.gif?cid=6c09b952k62mj6kfyj6272zr644duydx1u3gjuk6os8znrbm&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g");
+}
+h2 {
+  text-align: center;
+  color: white;
+}
+.register-container {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  width: 450px;
+  background: linear-gradient(to bottom, #ff7e5f, #1e90ff);
+  border-radius: 16px;
+  box-shadow: 2px 18px 50px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(7.1px);
+  -webkit-backdrop-filter: blur(7.1px);
+  border: 1px solid rgba(255, 255, 255, 1);
+}
+
+form {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  padding: 20px 30px;
+  width: 400px;
+  color: #333;
+}
+.input-field {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
+.input-field .input {
+  flex: 1;
+
+  color: black;
+  font-weight: 300;
+  font-size: 15px;
+  width: 100% !important;
+}
+.input-field label,
+input {
+  padding: 5px;
+
+  padding-right: auto;
+}
+.input-field input {
+  padding: 10px;
+  width: 100% !important;
+  flex: 1;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: transparent !important;
+}
+
+.input-field button {
+  padding: 10px;
+  /* color: white; */
+  /* background: linear-gradient(to bottom, #ff7e5f, #1e90ff); */
+  border: none;
+  /* background-color: transparent; */
+}
+input ::placeholder {
+  font-weight: 500;
+  background-color: transparent !important;
+}
+.text-line{
+    padding: 10px;
+    font-size: 14px;
+}

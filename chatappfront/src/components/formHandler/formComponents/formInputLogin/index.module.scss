@@ -1,0 +1,99 @@
+@import "assets/scss/variables";
+
+.formInput {
+  display: flex;
+  flex-direction: column;
+  letter-spacing: 0.2;
+  font-weight: 500;
+  color: #202423;
+
+  .inputDiv {
+    position: relative;
+    width: 100%;
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1.5px solid #ebebeb;
+      background-color: white;
+      padding: 10px 8px;
+      font-size: 18px;
+      font-weight: 500;
+
+      &::placeholder {
+        padding-left: 4px;
+        color: #8c8c8c;
+        font-weight: bold;
+        font-size: 18px;
+      }
+    }
+    .eye,
+    .isLoginIdInput {
+      position: absolute;
+      right: 10px;
+      transform: translateY(-50%);
+      top: 50%;
+      cursor: pointer;
+    }
+    .isLoginIdInput {
+      color: #4e3dbf;
+      background: #e4e0ff;
+      padding: 4px 8px;
+      border-radius: 10px;
+      cursor: text;
+    }
+    .eye {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  label {
+    margin-bottom: 3px;
+  }
+
+  @include hideNumberInput;
+
+  &.error {
+    label {
+      color: red;
+    }
+    input {
+      border-color: red;
+      color: red !important;
+      background-color: rgba(red, 0.05);
+      &::placeholder {
+        color: red !important;
+      }
+    }
+    .errorMessage {
+      margin: 0;
+      color: red;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .formInput {
+    letter-spacing: 0;
+    .inputDiv {
+      input {
+        &::placeholder {
+          padding-left: 2px;
+          font-weight: bold;
+          font-size: 14px;
+        }
+      }
+      .isLoginIdInput {
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+      }
+      .eye {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
