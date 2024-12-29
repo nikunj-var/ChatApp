@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./style.css";
 import FormProviderInput from "../components/formHandler/formComponents/formInput/providerInput";
 import FormProviderWrapper from "../components/formHandler/formProviderWrapper";
+import { GoogleLogin } from "@react-oauth/google";
 function RegisterForm() {
   const [formData, setFormData] = useState({
     username: "",
@@ -42,6 +43,28 @@ function RegisterForm() {
         emailId: "",
       });
     }
+  };
+  const handleGoogleSuccess = (response) => {
+    console.log("rs", response);
+    const { credential } = response;
+
+    // Send the token to the backend for validation
+    fetch("http://localhost:8080/auth/oauth2/callback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token: credential }), // Send token to the backend
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("User authenticated on backend", data);
+      })
+      .catch((error) => console.error("Error logging in with Google", error));
+  };
+
+  const handleGoogleFailure = (error) => {
+    console.error(error);
   };
 
   return (
@@ -103,8 +126,12 @@ function RegisterForm() {
             <button type="submit">Register</button>
           </div>
           <div className="input-field">
-            <button type="button">Sign in with Google</button>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleFailure}
+            />
           </div>
+
           <div className="text-line">Already have a account? Login Now</div>
         </FormProviderWrapper>
       </div>

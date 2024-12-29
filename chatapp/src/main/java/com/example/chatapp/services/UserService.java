@@ -39,7 +39,9 @@ public class UserService {
             user.setEmail(email);
             user.setUsername(name);
             user.setProvider("Google");
-            return userRepository.save(user);
+            User savedUser = userRepository.save(user);
+            System.out.println("\n\n\n\nsavd user"+savedUser+"\n\n\n");
+            return savedUser;
         });
     }
     

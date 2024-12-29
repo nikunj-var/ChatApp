@@ -12,13 +12,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        httpSecurity.authorizeHttpRequests(authz -> authz.requestMatchers("/register","/login").permitAll().anyRequest().authenticated()).oauth2Login(oauth2->oauth2.loginPage("/login").permitAll().redirectionEndpoint().baseUri("/auth/oauth2/callback"));
+        httpSecurity.authorizeHttpRequests(authz -> authz.requestMatchers("/register","/login","/auth/oauth2/callback").permitAll().anyRequest().authenticated()).oauth2Login(oauth2->oauth2.loginPage("/login").permitAll().redirectionEndpoint().baseUri("/auth/oauth2/callback"));
+        System.out.println("\n\n\ncalled\n\n\n\n");
         return httpSecurity.build();
     }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/register", "/login");
+        return (web) -> web.ignoring().requestMatchers("/register", "/login","/auth/oauth2/callback");
     }
 
 }
