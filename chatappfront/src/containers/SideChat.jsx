@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getUsers } from "../services/api";
+import { getUsers } from "../services/authService";
 
 const SideChat = ({ setUser2 }) => {
   const [users, setUsers] = useState([]);

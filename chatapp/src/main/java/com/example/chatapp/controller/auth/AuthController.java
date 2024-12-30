@@ -10,6 +10,7 @@ import com.example.chatapp.services.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         try{
-            userService.registerUser(user);
-            return ResponseEntity.status(HttpStatus.OK).body("User Registered Successfully");
+            User registeredUser = userService.registerUser(user);
+            Map<String,String> mp = new HashMap<>();
+            mp.put("username", registeredUser.getUsername());
+            mp.put("email", registeredUser.getEmail());
+            return ResponseEntity.status(HttpStatus.OK).body(mp);
         }catch(UserAlreadyExistsException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -44,7 +48,7 @@ public class AuthController {
     public ResponseEntity<?> oauth2Callback(@RequestBody Map<String, String> requestBody) {
         String token = requestBody.get("token");
         if(token == null || token.isEmpty()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("TOken not provided");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token not provided");
         }
         Map<String,Object> userAttributes = googleOAuthService.validateGoogleToken(token);
         if(userAttributes == null){

@@ -1,8 +1,6 @@
 import { Stomp } from "@stomp/stompjs";
-import axios from "axios";
 import SockJS from "sockjs-client";
-
-const API_BASE_URL = "http://localhost:8080";
+import axiosInstance from "../api/axiosInstance";
 
 let stompClient = null;
 
@@ -28,28 +26,37 @@ export const sendWebSocketMessage = (message) => {
 };
 
 export const fetchMessages = async (chatId) => {
-  const response = await axios.get(
-    `${API_BASE_URL}/message/chat-history/${chatId}`
-  );
-  return response.data;
+  try {
+    const response = await axiosInstance.get(`/message/chat-history/${chatId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching : ", error);
+    throw error;
+  }
 };
 
 export const getUsers = async () => {
-  const response = await axios.get(`${API_BASE_URL}/user/all`);
-  return response.data;
+  try {
+    const response = await axiosInstance.get("/user/all");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching  : ", error);
+    throw error;
+  }
 };
 
 export const getChatId = async ({ id1, id2 }) => {
-  const response = await axios.post(
-    `${API_BASE_URL}/chat/createChat/${id1}/${id2}`
-  );
-  return response?.data;
+  try {
+    const response = await axiosInstance.post(`/chat/createChat/${id1}/${id2}`);
+    return response?.data;
+  } catch (err) {
+    alert.error(err);
+  }
 };
 
 export const sendMessage = async (message) => {
-  const url = `${API_BASE_URL}/message/sendMessage`;
   try {
-    const response = await axios.post(url, message, {
+    const response = await axiosInstance.post("/message/sendMessage", message, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -70,15 +77,14 @@ export const sendMessage = async (message) => {
 };
 
 export const createUser = async (data) => {
-  console.log("data", data);
-  const url = `${API_BASE_URL}/auth/register`;
   try {
-    const response = await axios.post(url, data, {
+    const response = await axiosInstance.post("/auth/register", data, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-    return response.data;
+    localStorage.setItem("authToken", "nikunj");
+    return response;
   } catch (error) {
     console.error("Error in API call:", error);
     return error;

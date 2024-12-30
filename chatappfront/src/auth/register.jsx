@@ -3,12 +3,16 @@ import "./style.css";
 import FormProviderInput from "../components/formHandler/formComponents/formInput/providerInput";
 import FormProviderWrapper from "../components/formHandler/formProviderWrapper";
 import { GoogleLogin } from "@react-oauth/google";
-import { createUser } from "../services/api";
+import { createUser } from "../services/authService";
+import { Link, useNavigate } from "react-router-dom";
 function RegisterForm() {
-
+  const navigate = useNavigate();
   const handleGoogleSuccess = (response) => {
     console.log("rs", response);
     const { credential } = response;
+    if (credential) {
+      localStorage.setItem("authToken", credential);
+    }
 
     // Send the token to the backend for validation
     fetch("http://localhost:8080/auth/oauth2/callback", {
@@ -20,7 +24,7 @@ function RegisterForm() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("User authenticated on backend", data);
+        navigate("/");
       })
       .catch((error) => console.error("Error logging in with Google", error));
   };
@@ -44,7 +48,9 @@ function RegisterForm() {
             };
             try {
               const res = await createUser(payload);
-              console.log("res", res);
+              if (res?.status === 200) {
+                navigate("/");
+              }
             } catch (err) {
               console.log(err);
             }
@@ -58,7 +64,6 @@ function RegisterForm() {
               placeholder="Username"
             />
           </div>
-
           <div className="input-field">
             <FormProviderInput
               name="email"
@@ -95,7 +100,6 @@ function RegisterForm() {
               placeholder="Confirm Password"
             />
           </div>
-
           <div className="input-field">
             <button type="submit">Register</button>
           </div>
@@ -106,7 +110,9 @@ function RegisterForm() {
             />
           </div>
 
-          <div className="text-line">Already have a account? Login Now</div>
+          <Link to="/login">
+            <div className="text-line">Already have a account? Login Now</div>
+          </Link>
         </FormProviderWrapper>
       </div>
     </div>

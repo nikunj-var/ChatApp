@@ -9,7 +9,7 @@ import {
   sendMessage,
   sendWebSocketMessage,
   stompClient,
-} from "../services/api";
+} from "../services/authService";
 
 const ChatWindow = ({ chatId, currentUserId }) => {
   console.log("chatId", chatId);
