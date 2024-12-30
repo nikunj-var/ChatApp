@@ -41,7 +41,6 @@ export const getUsers = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching  : ", error);
-    throw error;
   }
 };
 
@@ -50,7 +49,7 @@ export const getChatId = async ({ id1, id2 }) => {
     const response = await axiosInstance.post(`/chat/createChat/${id1}/${id2}`);
     return response?.data;
   } catch (err) {
-    alert.error(err);
+    console.error(err);
   }
 };
 

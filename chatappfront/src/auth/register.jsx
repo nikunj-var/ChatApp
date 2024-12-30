@@ -49,6 +49,8 @@ function RegisterForm() {
             try {
               const res = await createUser(payload);
               if (res?.status === 200) {
+                localStorage.setItem("authToken", res?.data?.token);
+                localStorage.setItem("user", res?.data?.username);
                 navigate("/");
               }
             } catch (err) {

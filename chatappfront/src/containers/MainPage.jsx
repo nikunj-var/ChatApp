@@ -1,19 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import SideChat from "./SideChat";
 import ChatWindow from "./ChatWindow";
 
 const MainPage = () => {
+  const [user, setUser] = useState(localStorage.getItem("user"));
   return (
     <div>
       {" "}
       <div className="app-layout">
-        {/* <div className="side-chat">
-          <SideChat setUser2={2} />
+        <div className="side-chat">
+          {user ? <SideChat setUser2={user} /> : <div>No user found!</div>}
         </div>
         <div className="chat-window">
-          <ChatWindow chatId={2} currentUserId={2} />
-        </div> */}
-        welcome
+          <ChatWindow />
+        </div>
       </div>
     </div>
   );

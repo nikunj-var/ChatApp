@@ -25,22 +25,29 @@ public class AuthController {
 
     public AuthController(UserService userService,GoogleOAuthService googleOAuthService) {
         this.userService = userService;
-        this.googleOAuthService=googleOAuthService;
+        this.googleOAuthService= googleOAuthService;
+      
     }
     
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         try{
             User registeredUser = userService.registerUser(user);
+
+            String token = JwtUtil.generateToken(registeredUser.getUsername());
+
+            System.out.println("\n\ntoken"+token+"\n\n\n");
             Map<String,String> mp = new HashMap<>();
             mp.put("username", registeredUser.getUsername());
             mp.put("email", registeredUser.getEmail());
+            mp.put("token",token);
+           
             return ResponseEntity.status(HttpStatus.OK).body(mp);
         }catch(UserAlreadyExistsException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User doesn't registered");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
