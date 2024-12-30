@@ -24,6 +24,15 @@ public class User {
 
     private String phoneNumber;
     private String password;
+    private String confirmPassword;
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
     private String provider;
     
     

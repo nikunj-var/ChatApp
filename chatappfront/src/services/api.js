@@ -69,4 +69,20 @@ export const sendMessage = async (message) => {
   }
 };
 
+export const createUser = async (data) => {
+  console.log("data", data);
+  const url = `${API_BASE_URL}/auth/register`;
+  try {
+    const response = await axios.post(url, data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in API call:", error);
+    return error;
+  }
+};
+
 export { stompClient };

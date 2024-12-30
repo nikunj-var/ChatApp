@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.chatapp.entities.User;
+import com.example.chatapp.exception.UserAlreadyExistsException;
 import com.example.chatapp.services.GoogleOAuthService;
 import com.example.chatapp.services.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,10 +28,18 @@ public class AuthController {
     }
     
     @PostMapping("/register")
-    public User postMethodName(@RequestBody User user) {
-        return userService.registerUser(user);
+    public ResponseEntity<?> register(@RequestBody User user) {
+        try{
+            userService.registerUser(user);
+            return ResponseEntity.status(HttpStatus.OK).body("User Registered Successfully");
+        }catch(UserAlreadyExistsException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User doesn't registered");
+        }
     }
-  
+
     @PostMapping("/oauth2/callback")
     public ResponseEntity<?> oauth2Callback(@RequestBody Map<String, String> requestBody) {
         String token = requestBody.get("token");
@@ -38,16 +47,27 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("TOken not provided");
         }
         Map<String,Object> userAttributes = googleOAuthService.validateGoogleToken(token);
-        System.out.println("\n\nuser attributes"+userAttributes+"\n\n\n");
-
         if(userAttributes == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
-
         String email = (String) userAttributes.get("email");
         String name = (String) userAttributes.get("name");
         User user = userService.registerOAuthUser(email,name);
         return ResponseEntity.ok(user);
+    }
+    
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<Object,String> credentials) {
+        try{
+            String email = credentials.get("email");
+            String password = credentials.get("password");
+            if(email == null || password == null){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email or password not provided");
+            }
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("ok");
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error logging in!");
+        }
     }
     
     

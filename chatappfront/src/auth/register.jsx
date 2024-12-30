@@ -3,47 +3,9 @@ import "./style.css";
 import FormProviderInput from "../components/formHandler/formComponents/formInput/providerInput";
 import FormProviderWrapper from "../components/formHandler/formProviderWrapper";
 import { GoogleLogin } from "@react-oauth/google";
+import { createUser } from "../services/api";
 function RegisterForm() {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    phonenumber: "",
-    emailId: "",
-  });
 
-  const [errors, setErrors] = useState({});
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const validate = () => {
-    let tempErrors = {};
-    if (!formData.username) tempErrors.username = "Username is required.";
-    if (!formData.password || formData.password.length < 6)
-      tempErrors.password = "Password must be at least 6 characters.";
-    if (!/^\d{10}$/.test(formData.phonenumber))
-      tempErrors.phonenumber = "Phonenumber must be 10 digits.";
-    if (!/\S+@\S+\.\S+/.test(formData.emailId))
-      tempErrors.emailId = "Enter a valid email address.";
-    setErrors(tempErrors);
-    return Object.keys(tempErrors).length === 0;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      console.log("Form Submitted", formData);
-      alert("Registration successful!");
-      setFormData({
-        username: "",
-        password: "",
-        phonenumber: "",
-        emailId: "",
-      });
-    }
-  };
   const handleGoogleSuccess = (response) => {
     console.log("rs", response);
     const { credential } = response;
@@ -54,7 +16,7 @@ function RegisterForm() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ token: credential }), // Send token to the backend
+      body: JSON.stringify({ token: credential }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -72,8 +34,20 @@ function RegisterForm() {
       <div className="register-container">
         <h2>Register</h2>
         <FormProviderWrapper
-          onSubmit={(data) => {
-            console.log(data);
+          onSubmit={async (data) => {
+            const payload = {
+              username: data?.username,
+              phoneNumber: data?.phoneNumber,
+              email: data?.email,
+              password: data?.password,
+              confirmPassword: data?.confirmPassword,
+            };
+            try {
+              const res = await createUser(payload);
+              console.log("res", res);
+            } catch (err) {
+              console.log(err);
+            }
           }}
         >
           <div className="input-field">
